@@ -1,0 +1,87 @@
+<div *ngIf="showCalendarChoice; then showChoice; else showChosen">this is ignored</div>
+<ng-template #showChoice>
+  <div class="content-heading">
+    <div class="row">
+      <form [formGroup]="calendarForm" class="form-validate mb-lg" role="form" name="calendarForm"
+            novalidate="" (ngSubmit)="loadCalendar($event, calendarForm.value)">
+        <div formGroupName="calGroup" class="col-lg-12">
+          <div class="col-lg-2 col-md-6">
+            <label>Audiologist
+            </label>
+            <div *ngIf="!specialistsLoaded">Loading Specialists...</div>
+            <select *ngIf="specialistsLoaded" class="form-control" (ngModel)="selectedSpecialist" formControlName="specialist" (ngModelChange)="specialistChanged($event)">
+              <option [ngValue]="null">None</option>
+              <option *ngFor="let specialist of specialists ; let i = index" [ngValue]="specialist">
+                {{specialist.firstName}}
+                {{specialist.lastName}}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <label>Location
+            </label>
+            <span class="text-danger" *ngIf="calendarForm.get('calGroup.location').hasError('required') && (calendarForm.get('calGroup.location').dirty || calendarForm.get('calGroup.location').touched)">
+                (This field is required)
+              </span>
+            <div *ngIf="!locationsLoaded">Loading Locations...</div>
+            <select *ngIf="locationsLoaded" class="form-control" [(ngModel)]="chosenLocation" formControlName="location" (ngModelChange)="locationChanged($event)"
+            >
+              <option *ngFor="let location of locations ; let i = index" [ngValue]="location.id">
+                {{location.name}}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <label></label>
+            <button class="form-control btn-danger">Show Calendar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #showChosen>
+  <div class="content-heading">
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <em class="icon-plus" (click)="showChoiceOptions()"></em>
+        Showing calendar <span *ngIf="selectedSpecialist != null && selectedSpecialist.id != null">for <b>{{selectedSpecialist.firstName}} {{selectedSpecialist.lastName}} </b></span>
+        <span *ngIf="selectedLocation.id != null">at <b>{{selectedLocation.name}} </b></span>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="pull-right">
+          <a routerLink="/admin/appointments/cancelled/{{selectedLocation.id}}" class="btn btn-warning" (click)="openRouter()">
+            <em class="icon-ban"></em> Cancelled Appointments
+          </a>
+        </div>
+        <div class="pull-right">
+          <a routerLink="/admin/appointments/pending/{{selectedLocation.id}}" class="btn btn-success" (click)="openRouter()">
+            <em class="icon-clock"></em> Pending Appointments
+          </a>
+        </div>
+        <div class="pull-right">
+          <a routerLink="/admin/appointments/requested/{{selectedLocation.id}}" class="btn btn-info" (click)="openRouter()">
+            <em class="icon-flag"></em> Requested Appointments
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<div class="row">
+  <div class="col-lg-12">
+    <!-- START appointments-->
+    <div *ngIf="eventsLoaded; then showCalendar; else showMessage">this is ignored</div>
+    <ng-template #showCalendar>
+      <app-clinic-calendar #appointmentComponent [clinicLocation]="selectedLocation" [doctor]="selectedSpecialist" (action)="openRouter()"></app-clinic-calendar>
+    </ng-template>
+    <ng-template #showMessage>
+      <div class="panel-title"><em class="fa fa-building-o fa-fw"></em>Choose the audiologist at a location to view the calendar</div>
+    </ng-template>
+  </div>
+</div>
+<modal #routerArea (onClose)="appointmentClose()" (onDismiss)="appointmentClose()" [keyboard]="false" [backdrop]="false">
+  <modal-body>
+    <router-outlet></router-outlet>
+  </modal-body>
+</modal>

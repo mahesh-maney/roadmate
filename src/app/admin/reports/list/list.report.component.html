@@ -1,0 +1,110 @@
+<!-- START panel-->
+<div class="panel panel-default">
+
+
+  <div *ngIf="isFailure" class="alert alert-danger" role="alert">
+    <strong>Error !!</strong>. Sorry, unable to complete the operation. Please try again.
+  </div>
+
+  <!-- START table-responsive-->
+
+  <div class="panel-heading">
+    <a href="#" class="btn btn-sm pull-right">
+      <em class="icon-close" (click)="closeWindow()"></em>
+    </a>
+    <h2>Attendance Report</h2>
+    <div class="row">
+      <div class="col-md-4" style="margin-bottom: 15px;">
+        <label class="control-label">Date & Time</label>
+        <div class="input-group">
+          {{date}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Location Name</th>
+            <th>Total Assigned</th>
+            <th>Biometrics Registered</th>
+            <th>Total Present</th>
+            <th>Total Absent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="text-left">{{dutyLocation?.name}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{reportData?.totalAssigned}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{reportData?.totalBioMetricRegistered}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{reportData?.totalPresent}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{reportData?.totalAbsent}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+            <th>Comments</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="empty">
+          <tr>
+            <td>
+              <p>There are no reports registered yet.</p>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!empty">
+          <tr *ngFor="let report of reports">
+            <td>
+              <div class="text-left"><a href="#" (click)="loadStaff(report.userId)">{{report?.name}}</a></div>
+            </td>
+            <td>
+              <div class="text-left">{{report?.mobileNumber}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{report?.timeIn}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{report?.timeOut}}</div>
+            </td>
+            <td>
+              <div class="text-left">{{report?.comment}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- END table-responsive-->
+</div>
+<modal #updateStaff>
+  <modal-body>
+    <div class="panel-body">
+      <app-edit-staff *ngIf="loaded" [staff]="staffToBeUpdated" (staffUpdated)="staffUpdated()" (closed)="staffClosed()"></app-edit-staff>
+    </div>
+  </modal-body>
+</modal>

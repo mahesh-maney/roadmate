@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <img class="img-responsive" src="assets/img/logo.png" alt="App Logo" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-2 col-sm-8">
+        <h3 jhiTranslate="error.title">Welcome to GeoAttend Information Management System</h3>
+        <div [hidden]="!errorMessage">
+          <div class="alert alert-danger">{{errorMessage}}
+          </div>
+        </div>
+        <!-- <div [hidden]="!error403" class="alert alert-info" jhiTranslate="error.403">Please login to access your account.</div> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-2 col-sm-8">
+        <jhi-login-modal [isModal]="false"></jhi-login-modal>
+      </div>
+    </div>
+  </div>
+  <footer app-footer></footer>
+</div>

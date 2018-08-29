@@ -1,0 +1,95 @@
+<!-- START panel-->
+<div class="panel panel-default">
+
+
+  <div *ngIf="isFailure" class="alert alert-danger" role="alert">
+    <strong>Error !!</strong>. Sorry, unable to complete the operation. Please try again.
+  </div>
+
+  <!-- START table-responsive-->
+
+  <div class="panel-heading">
+    <h2>Attendance Report Summary</h2>
+    <div class="row">
+      <div class="col-md-4" style="margin-bottom: 15px;">
+        <label class="control-label">Date & Time</label>
+        <div class="input-group">
+          <input readonly ngui-datetime-picker [(ngModel)]="date" date-format="DD-MM-YYYY hh:mm a" />
+        </div>
+      </div>
+      <div class="col-md-4" style="margin-bottom: 15px;">
+        <br/>
+        <button class="btn btn-info" (click)="load()">Load</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body"  *ngIf="!empty">
+    <div>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Location Name</th>
+            <th>Staffs Assigned</th>
+            <th>Staffs Absent</th>
+            <th>Staffs Present</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="empty">
+          <tr>
+            <td>
+              <p>There are no reports registered yet.</p>
+            </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let report of reportSummary">
+            <td *ngIf="report.locationName !== 'Unassigned'">
+              <div class="text-left"><a (click)="loadLocation(report?.locationId,report?.locationName)" href="#">{{report?.locationName}}</a></div>
+            </td>
+            <td *ngIf="report.locationName !== 'Unassigned'">                      
+              <div class="text-left">
+                <span *ngIf="report.active">
+                {{report?.staffAssignedCount}}
+                </span>
+                <span *ngIf="!report.active">
+                Inactive
+                </span>
+              </div>
+            </td>
+            <td *ngIf="report.locationName !== 'Unassigned'">
+              <div class="text-left">
+                <span *ngIf="report.active">
+                {{report?.staffAbsesentCount}}
+                </span>
+                <span *ngIf="!report.active">
+                </span>
+              </div>
+            </td>
+            <td *ngIf="report.locationName !== 'Unassigned'">
+              <div class="text-left">
+                <span *ngIf="report.active">
+                {{report?.staffPresentCount}}
+                </span>
+                <span *ngIf="!report.active">
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- END table-responsive-->
+</div>
+<modal #locationdetails>
+  <modal-body>
+    <div class="panel-body">
+      <app-list-report [dutyLocation]="chosenLocation" [date]="date" [reports]="reports" [reportData]="reportData"
+       (closed)="detailsClosed()"></app-list-report>
+    </div>
+  </modal-body>
+</modal>

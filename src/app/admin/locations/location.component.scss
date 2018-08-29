@@ -1,0 +1,12 @@
+.required label:after {
+  content: "*";
+  color: red;
+}
+
+.location {
+  cursor: pointer;
+}
+
+form [class^="col-"] {
+  margin-bottom: 15px;
+}

@@ -1,0 +1,66 @@
+<!-- START panel-->
+<div class="panel panel-flat">
+  <div class="panel-heading">
+    <a href="#" class="btn btn-sm pull-right">
+      <em class="icon-close" (click)="closeWindow()"></em>
+    </a>
+    <h2 *ngIf="updatemode" class="text-center pv">Update Portal User</h2>
+    <h2 *ngIf="createmode" class="text-center pv">Add Portal User</h2>
+  </div>
+  <div class="panel-body">
+    <div>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+    <p *ngIf="error">{{errorMessage}}</p>
+    <form #configurationForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
+      <div *ngIf="!configurationForm.form.valid" class="row">
+        <div class="col-md-12">
+          <label>Please enter all fields marked by </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <label class="text-muted">First Name
+          </label>
+          <input type="text" name="firstName" [(ngModel)]="configuration.firstName" required class="form-control">
+        </div>
+        <div class="col-md-6 required">
+          <label class="text-muted">Last Name
+          </label>
+          <input type="text" name="lastName" [(ngModel)]="configuration.lastName" required class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <label class="text-muted">User Id
+          </label>
+          <input type="text" name="login" [(ngModel)]="configuration.login" [disabled]="updatemode" required class="form-control">
+        </div>
+        <div class="col-md-6 required">
+          <label class="text-muted">Email
+          </label>
+          <input type="email" name="email" [(ngModel)]="configuration.email" [disabled]="updatemode" required class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="text-muted">Authorities
+          </label>
+          <div class="form-control" style="border:none;">
+            Admin
+            <input type="checkbox" [checked]="configuration.authorities && configuration.authorities.indexOf('ROLE_ADMIN') >= 0" (change)="configuration.authorities = [($event.target.checked ? 'ROLE_ADMIN' : 'ROLE_USER')]"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-9 col-md-3">
+          <button class="btn btn-block btn-success pull-right" [disabled]="!configurationForm.form.valid" (click)="submit()">
+            <span *ngIf="updatemode">Update Portal User</span>
+            <span *ngIf="createmode">Add Portal User</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

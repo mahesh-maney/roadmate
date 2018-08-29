@@ -1,0 +1,95 @@
+<!-- START panel-->
+<div class="panel panel-flat">
+  <div class="panel-heading">
+    <a href="#" class="btn btn-sm pull-right">
+      <em class="icon-close" (click)="closeWindow()"></em>
+    </a>
+    <h2 *ngIf="updatemode" class="text-center pv">Update Staff</h2>
+    <h2 *ngIf="createmode" class="text-center pv">Add Staff</h2>
+  </div>
+  <div class="panel-body">
+    <div>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+    <p *ngIf="error">{{errorMessage}}</p>
+    <form #staffForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
+      <div *ngIf="!staffForm.form.valid" class="row">
+        <div class="col-md-12">
+          <label>Please enter all fields marked by *</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <label class="text-muted">First Name
+          </label>
+          <input type="text" name="firstName" [(ngModel)]="staff.firstName" required class="form-control">
+        </div>
+        <div class="col-md-6 required">
+          <label class="text-muted">Last Name
+          </label>
+          <input type="text" name="lastName" [(ngModel)]="staff.lastName" required class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="text-muted">Buckle Id
+          </label>
+          <input type="text" name="buckleId" [(ngModel)]="staff.buckleId" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="text-muted">Mobile Number
+          </label>
+          <input type="text" name="mobileNumber" [(ngModel)]="staff.mobileNumber" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <label for="designation" class="text-muted control-label">Designation
+          </label>
+          <select class="form-control" [(ngModel)]="staff.designation" [compareWith]="compareDesignation" id="designation" name="designation"
+            required>
+            <option *ngFor="let designation of designations" [ngValue]="designation">
+              {{designation.description}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-6 required">
+          <label class="text-muted">Police Station
+          </label>
+          <div ngui-auto-complete id="policeStations" (valueChanged)="stationValueChanged($event)" [source]="loadStations.bind(this)"
+            [list-formatter]="stationListFormatter" [value-formatter]="stationValueFormatter" value-property-name="id" display-property-name="name"
+            placeholder="Type to search" class="scrollable-menu">
+            <input [ngModel]="staff.station" class="form-control scrollable-menu" name="stations" autocomplete="off" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="text-muted">Duty Location
+          </label>
+          <div ngui-auto-complete id="dutyLocations" (valueChanged)="dutyLocationValueChanged($event)" [source]="loadDutyLocations.bind(this)"
+               [list-formatter]="dutyLocationListFormatter" [value-formatter]="dutyLocationValueFormatter" value-property-name="id"
+               display-property-name="name" placeholder="Type to search" class="scrollable-menu">
+            <input [ngModel]="staff.dutyLocation" class="form-control scrollable-menu" name="locations" autocomplete="off">
+          </div>
+        </div>
+        <div class="col-md-6" [hidden]="createmode">
+          <label class="text-muted">Scan Status
+          </label>
+          <div class="form-control" style="border:none;">
+            Status
+            <input type="checkbox" [checked]="staff.scanStatus === 1" (change)="staff.scanStatus = ($event.target.checked ? 1 : 0)" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-9 col-md-3">
+          <button class="btn btn-block btn-success pull-right" [disabled]="!staffForm.form.valid" (click)="submit()">
+            <span *ngIf="updatemode">Update Staff</span>
+            <span *ngIf="createmode">Create Staff</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

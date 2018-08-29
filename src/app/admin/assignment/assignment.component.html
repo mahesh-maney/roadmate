@@ -1,0 +1,52 @@
+<div class="panel-body">
+  <div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+  </div>
+  <p *ngIf="error">{{errorMessage}}</p>
+  <form #assignForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
+    <div *ngIf="!assignForm.form.valid" class="row">
+      <div class="col-md-12">
+        <label>Please enter all fields marked by *</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Staff
+        </label>
+        <div class="input-group">
+          {{selectedStaff.firstName}} {{selectedStaff.lastName}}
+        </div>
+      </div>
+      <div class="col-md-6 required">
+        <label>Duty Location
+        </label>
+        <div ngui-auto-complete id="dutyLocations" (valueChanged)="dutyLocationValueChanged($event)" [source]="loadDutyLocations.bind(this)"
+            [list-formatter]="dutyLocationListFormatter" [value-formatter]="dutyLocationValueFormatter" value-property-name="id"
+            display-property-name="name" placeholder="Type to search" class="scrollable-menu">
+            <input [ngModel]="dutyAssignment.dutyLocation" class="form-control scrollable-menu" name="locations" autocomplete="off" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6" style="margin-bottom: 15px;">
+        <label class="control-label">Start Time</label>
+        <div class="input-group">
+          <input ngui-datetime-picker name="startDate" [(ngModel)]="startDate" date-format="DD-MM-YYYY hh:mm a" />
+        </div>
+      </div>
+      <div class="col-md-6" style="margin-bottom: 15px;">
+        <label class="control-label">End Time</label>
+        <div class="input-group">
+          <input ngui-datetime-picker name="endDate" [(ngModel)]="endDate" date-format="DD-MM-YYYY hh:mm a" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-9 col-md-3">
+        <button class="btn btn-block btn-success pull-right" [disabled]="!assignForm.form.valid" (click)="submit()">
+          <span>Assign</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

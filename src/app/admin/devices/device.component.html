@@ -1,0 +1,45 @@
+<!-- START panel-->
+<div class="panel panel-flat">
+  <div class="panel-heading">
+    <a href="#" class="btn btn-sm pull-right">
+      <em class="icon-close" (click)="closeWindow()"></em>
+    </a>
+    <h2 *ngIf="updatemode" class="text-center pv">Update Device</h2>
+    <h2 *ngIf="createmode" class="text-center pv">Add Device</h2>
+  </div>
+  <div class="panel-body">
+    <div>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+    <p *ngIf="error">{{errorMessage}}</p>
+    <form #deviceForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
+      <div *ngIf="!deviceForm.form.valid" class="row">
+        <div class="col-md-12">
+          <label>Please enter all fields marked by </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <label class="text-muted">IMEI
+          </label>
+          <input type="number" name="imei" [(ngModel)]="device.imei" required class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="text-muted">Status
+          </label>
+          <div class="form-control" style="border:none;">
+            <input type="checkbox" [checked]="device.status === 1" (change)="device.status = ($event.target.checked ? 1 : 0)" /> Is Active
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-9 col-md-3">
+          <button class="btn btn-block btn-success pull-right" [disabled]="!deviceForm.form.valid" (click)="submit()">
+            <span *ngIf="createmode">Add Device</span>
+            <span *ngIf="updatemode">Update Device</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

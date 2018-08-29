@@ -1,0 +1,140 @@
+<div class="wrapper">
+  <div class="block-center">
+    <!-- START panel-->
+    <div class="panel">
+      <div class="panel-heading text-center">
+        <a href="#">
+          <img class="block-center img-rounded" src="assets/img/logo.png" alt="Image" />
+        </a>
+      </div>
+      <div class="panel-body row" [ngSwitch]="state">
+        <ng-container *ngSwitchCase=1>
+          <p class="text-center pv">Signup to book and manage your appointments.</p>
+          <div class="text-danger" *ngIf="registrationError">Sorry, we could not complete the registration. <strong>{{errormsg}}</strong>.</div>
+          <form [formGroup]="valForm" class="form-horizontal mb-lg" role="form" name="valForm" (submit)="submitForm($event, valForm.value)">
+            <div class="row">
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">Login Username</label>
+                <input class="form-control" type="username" name="username" placeholder="Enter Username" autocomplete="off" required="" [formControl]="valForm.get('username')"/>
+                <span class="fa fa-user form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('username').hasError('required') && (valForm.get('username').dirty || valForm.get('username').touched)">This field is required</span>
+                <span class="text-danger" *ngIf="valForm.get('username').hasError('pattern') && (valForm.get('username').dirty || valForm.get('username').touched)">Input should match 'a-zA-Z0-9' and 6-10 length</span>
+              </div>
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">Email address</label>
+                <input class="form-control" type="email" name="account_email" placeholder="Enter email" autocomplete="off" required="" [formControl]="valForm.get('email')"/>
+                <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('email').hasError('required') && (valForm.get('email').dirty || valForm.get('email').touched)">This field is required</span>
+                <span class="text-danger" *ngIf="valForm.get('email').hasError('email') && (valForm.get('email').dirty || valForm.get('email').touched)">This field must be a valid email address</span>
+              </div>
+
+            </div>
+            <div class="row">
+              <div formGroupName="passwordGroup">
+                <div class="col-lg-6 has-feedback">
+                  <label class="text-muted">Password</label>
+                  <input class="form-control" id="id-password" type="password" name="password" [formControl]="valForm.get('passwordGroup.password')"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+                  <span class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('required') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">This field is required</span>
+                  <span class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('pattern') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">Input should match 'a-zA-Z0-9' and 6-10 length</span>
+                </div>
+                <div class="col-lg-6 has-feedback">
+                  <label class="text-muted">Retype Password</label>
+                  <input class="form-control" type="password" name="confirmPassword" [formControl]="valForm.get('passwordGroup.confirmPassword')"/>
+                  <span class="fa fa-lock form-control-feedback text-muted"></span>
+                  <span class="text-danger" *ngIf="valForm.get('passwordGroup.confirmPassword').hasError('equalTo')">Password does Not match</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">First Name</label>
+                <input class="form-control" type="firstName" name="first_name" placeholder="Enter First Name" autocomplete="off" required="" [formControl]="valForm.get('firstName')" />
+                <span class="fa fa-address-card form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('firstName').hasError('required') && (valForm.get('firstName').dirty || valForm.get('firstName').touched)">This field is required</span>
+              </div>
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">Last Name</label>
+                <input class="form-control" type="lastName" name="last_name" placeholder="Enter Last Name" autocomplete="off" required="" [formControl]="valForm.get('lastName')"/>
+                <span class="fa fa-address-card form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('lastName').hasError('required') && (valForm.get('lastName').dirty || valForm.get('lastName').touched)">This field is required</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">Mobile Number</label>
+                <input class="form-control" type="mobile" name="account_email" placeholder="Enter mobile number" autocomplete="off" required="" [formControl]="valForm.get('mobile')"/>
+                <span class="fa fa-mobile-phone form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('mobile').hasError('required') && (valForm.get('mobile').dirty || valForm.get('mobile').touched)">This field is required</span>
+              </div>
+              <div class="col-lg-6 has-feedback">
+                <label class="text-muted">Date of Birth</label>
+                <input class="form-control" type="date" name="dob" placeholder="Enter Date of Birth" autocomplete="off" required="" [formControl]="valForm.get('dob')"/>
+                <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                <span class="text-danger" *ngIf="valForm.get('dob').hasError('required') && (valForm.get('dob').dirty || valForm.get('dob').touched)">This field is required</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 clearfix">
+                <div class="checkbox c-checkbox pull-left mt0">
+                  <label>
+                    <input type="checkbox" required="" name="account_agreed" formControlName="accountagreed" [formControl]="valForm.get('accountagreed')"/>
+                    <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
+                  </label>
+                </div>
+                <span class="text-danger" *ngIf="valForm.get('accountagreed').hasError('required') && (valForm.get('accountagreed').dirty || valForm.get('accountagreed').touched)">You must agree the terms</span>
+              </div>
+            </div>
+            <button *ngIf="!loading" class="btn btn-block btn-primary mt-lg" type="submit">Create account</button>
+            <div>
+              <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+            </div>
+          </form>
+          <!-- <div class="alert alert-danger text-center"></div> -->
+          <p class="pt-lg text-center">Already Registered?</p><a class="btn btn-block btn-default" (click)="showLoginForm()">Sign In</a>
+        </ng-container>
+        <ng-container *ngSwitchCase=2>
+          <p class="text-center pv">Login to book and manage appointments.</p>
+          <div class="text-danger" *ngIf="loginError">Sorry, we could not log you in. {{errormsg}}</div>
+          <form [formGroup]="loginForm" class="form-validate mb-lg" role="form" name="loginForm" novalidate="" (submit)="submitForm($event, loginForm.value)">
+            <div class="form-group has-feedback">
+              <label class="text-muted">Login Username</label>
+              <input class="form-control" type="text" name="account_login" placeholder="Enter username" autocomplete="off" formControlName="login" required="" />
+              <span class="fa fa-envelope form-control-feedback text-muted"></span>
+              <span class="text-danger" *ngIf="loginForm.get('login').hasError('required') && (loginForm.get('login').dirty || loginForm.get('login').touched)">This field is required</span>
+              <span class="text-danger" *ngIf="loginForm.get('login').hasError('login') && (loginForm.get('login').dirty || loginForm.get('login').touched)">Input should match 'a-zA-Z0-9' and 6-10 length</span>
+            </div>
+            <div class="form-group has-feedback">
+              <label class="text-muted">Password</label>
+              <input class="form-control" id="loginform-id-password" type="password" name="password" formControlName="password" [formControl]="loginForm.get('password')"/>
+              <span class="fa fa-lock form-control-feedback text-muted"></span>
+              <span class="text-danger" *ngIf="loginForm.get('password').hasError('required') && (loginForm.get('password').dirty || loginForm.get('password').touched)">This field is required</span>
+            </div>
+            <button *ngIf="!loading" class="btn btn-block btn-primary mt-lg" type="submit">Login</button>
+            <div>
+              <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+            </div>
+          </form>
+          <!-- <div class="alert alert-danger text-center"></div> -->
+          <p class="pt-lg text-center">Not Registered?</p><a class="btn btn-block btn-default" (click)="showSignupForm()">Sign Up</a>
+        </ng-container>
+        <ng-container *ngSwitchCase=3>
+          <p class="text-center pv">Enter the activation key sent to your Email address or Mobile Number.</p>
+          <div class="text-danger" *ngIf="registrationError"><strong>{{errormsg}}</strong>.</div>
+          <form [formGroup]="actForm" class="form-validate mb-lg" role="form" name="actForm" novalidate="" (submit)="submitForm($event, actForm.value)">
+            <div class="form-group has-feedback">
+              <label class="text-muted">Your Activation Key</label>
+              <input class="form-control" type="text" name="activation_key" placeholder="Enter Activation Key" autocomplete="off" formControlName="key" required="" />
+              <span class="fa fa-key form-control-feedback text-muted"></span>
+              <span class="text-danger" *ngIf="actForm.get('key').hasError('required') && (actForm.get('key').dirty || actForm.get('key').touched)">This field is required</span>
+            </div>
+            <button *ngIf="!loading" class="btn btn-block btn-primary mt-lg" type="submit">Activate</button>
+            <div>
+              <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+            </div>
+          </form>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
