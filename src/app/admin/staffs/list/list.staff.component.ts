@@ -9,6 +9,7 @@ import { StationServices } from '../../../core/services/station.services';
 import { Observable } from 'rxjs';
 import { Station } from '../../../core/entities/station/station.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../../../../environments/environment.prod';
 /**
  * Created by Jerry Kurian on 30-05-2017.
  */
@@ -42,12 +43,21 @@ export class ListStaffComponent implements OnInit {
   newStaffForm: ModalComponent;
   station: Station;
   dutyLocation: DutyLocation;
+  firstNameLabel = environment.staff_listPage_firstName;
+  lastNameLabel = environment.staff_listPage_lastName;
+  mobileNumberLabel = environment.staff_listPage_mobileNumber;
+  emailIdLabel = environment.staff_listPage_emailId;
+  searchLabel = environment.staff_listPage_placeholder;
+  noStaffMessage = environment.staff_listPage_nostaffMessage;
+  refreshButtonLabel = environment.staff_listPage_refresh_button;
+  updateButtonLabel = environment.staff_listPage_update_button;
   constructor(private staffService: StaffServices,
     private stationServices: StationServices,
     private dutyLocationServices: DutyLocationServices,
     private _sanitizer: DomSanitizer
   ) {
   }
+
   ngOnInit() {
     this.load(this.currentPage);
   }
@@ -84,10 +94,10 @@ export class ListStaffComponent implements OnInit {
     if (staff.dutyLocation === null) {
       staff.dutyLocation = new DutyLocation();
     }
-
     this.staffToBeUpdated = staff;
     this.updateStaffForm.open('lg');
   }
+
   staffUpdated() {
     this.isSuccess = true;
     this.fadeTheMessage();
@@ -100,7 +110,7 @@ export class ListStaffComponent implements OnInit {
     this.newStaffForm.close();
   }
   updateLocation(staff){
-    this.updateMode = true;    
+    this.updateMode = true;
     this.staffToBeUpdated = staff;
     this.updateLocationForm.open('lg');
   }
@@ -109,7 +119,7 @@ export class ListStaffComponent implements OnInit {
     this.fadeTheMessage();
     this.updateLocationForm.close();
   }
-  assignmentClosed(){this.updateLocationForm.close();}  
+  assignmentClosed(){this.updateLocationForm.close();}
   delete(staff) {
     this.resetMessages();
     this.staffToBeDeleted = staff;

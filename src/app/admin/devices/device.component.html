@@ -1,45 +1,72 @@
 <!-- START panel-->
 <div class="panel panel-flat">
-  <div class="panel-heading">
-    <a href="#" class="btn btn-sm pull-right">
-      <em class="icon-close" (click)="closeWindow()"></em>
-    </a>
-    <h2 *ngIf="updatemode" class="text-center pv">Update Device</h2>
-    <h2 *ngIf="createmode" class="text-center pv">Add Device</h2>
-  </div>
-  <div class="panel-body">
-    <div>
-      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
-    </div>
-    <p *ngIf="error">{{errorMessage}}</p>
-    <form #deviceForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
-      <div *ngIf="!deviceForm.form.valid" class="row">
-        <div class="col-md-12">
-          <label>Please enter all fields marked by </label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 required">
-          <label class="text-muted">IMEI
-          </label>
-          <input type="number" name="imei" [(ngModel)]="device.imei" required class="form-control">
-        </div>
-        <div class="col-md-6">
-          <label class="text-muted">Status
-          </label>
-          <div class="form-control" style="border:none;">
-            <input type="checkbox" [checked]="device.status === 1" (change)="device.status = ($event.target.checked ? 1 : 0)" /> Is Active
+    <fieldset>
+        <legend>
+          <div class="panel-heading">
+            <a href="#" class="btn btn-sm pull-right">
+              <em class="icon-close" (click)="closeWindow()"></em>
+            </a>
+            <h2 *ngIf="updatemode" class="text-center pv">Update Device</h2>
+            <h2 *ngIf="createmode" class="text-center pv">Add Device</h2>
           </div>
+        </legend>
+    <div class="panel-body">
+        <div>
+            <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-offset-9 col-md-3">
-          <button class="btn btn-block btn-success pull-right" [disabled]="!deviceForm.form.valid" (click)="submit()">
-            <span *ngIf="createmode">Add Device</span>
-            <span *ngIf="updatemode">Update Device</span>
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
+        <p *ngIf="error">{{errorMessage}}</p>
+        <form #deviceForm="ngForm" class="form-validate form-horizontal mb-lg" role="form">
+                <div *ngIf="!deviceForm.form.valid" class="row">
+                    <div class="col-md-12">
+                        <label>Please enter all fields marked by </label>
+                    </div>
+                </div>
+                <!-- IMEI Number -->
+                <div class="row">
+                    <div class="col-md-6 required">
+                        <label>Device IMEI</label>
+                        <input type="text" name="imei" placeholder="IMEI" (blur)="validateIMEI(imei.value)" [(ngModel)]="device.imei" required class="form-control" #imei>
+                    </div>
+                    <div class="col-md-6 required">
+                        <div id="" *ngIf="!isIMEINameValid">{{imeiErrorMsg}}</div>
+                    </div>
+                    <div><br></div>
+                </div>
+                <!-- Staff Name -->
+                <div class="row">
+                    <div class="col-md-6 required">
+                        <label>Staff Name</label>
+                        <div class="input-group">
+                            <input type="text" name="staffName" placeholder="Staff Name"
+                            (blur)="validateStaffName(staffName.value)"
+                            [(ngModel)]="staff.name" required class="form-control" #staffName>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default btn-sm" (click)="search()"
+                                type="submit">
+                                <i class="fa fa-search"></i>
+                              </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 required">
+                        <div id="" *ngIf="!isStaffNameValid">{{staffNameErrorMsg}}</div>
+                    </div>
+                    <div><br></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 required">
+                        <input type="checkbox" [checked]="device.status === 1" (change)="device.status = ($event.target.checked ? 1 : 0)" /> Is Active
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-9 col-md-3">
+                        <button class="btn btn-block btn-success pull-right" [disabled]="!deviceForm.form.valid" (click)="submit()">
+                            <span *ngIf="createmode">Add Device</span>
+                            <span *ngIf="updatemode">Update Device</span>
+                        </button>
+                    </div>
+                </div>
+        </form>
+    </div>
+  </fieldset>
 </div>

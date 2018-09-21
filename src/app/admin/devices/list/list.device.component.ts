@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-
+import { environment } from '../../../../environments/environment.prod';
 import { Device } from '../../../core/entities/device/device.model';
 import { DeviceServices } from '../../../core/services/device.services';
 
@@ -29,7 +29,18 @@ export class ListDeviceComponent implements OnInit {
   searchText = '';
   @ViewChild('newDevice')
   newDeviceForm: ModalComponent;
-
+  searchLabel = environment.device_listPage_search;
+  isActiveLabel = environment.device_listPage_isActive;
+  staffNameLabel = environment.device_listPage_staffName;
+  imeiLabel = environment.device_listPage_imei;
+  addButtonLabel = environment.addDevice_groupName;
+  updateButtonLabel = environment.addDevice_updatebutton;
+  refreshbuttonLabel = environment.addDevice_refreshbutton;
+  addDeviceSuccessMsg = environment.device_listPage_successMsg;
+  addDeviceErrorMsg = environment.device_listPage_errorMsg;
+  addDeviceUpdated = environment.device_listPage_deviceUpdated;
+  addDeviceUpdateFailed = environment.device_listPage_deviceUpdateFailed;
+  addDeviceNoDeviceRegMsg = environment.device_listPage_noDeviceRegMsg;
   constructor(private deviceService: DeviceServices) {
   }
 

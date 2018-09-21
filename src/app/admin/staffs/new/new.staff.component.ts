@@ -9,6 +9,7 @@ import { DesignationServices } from '../../../core/services/designation.services
 import { StationServices } from '../../../core/services/station.services';
 import { DutyLocationServices } from '../../../core/services/duty.location.services';
 import { DutyLocation } from '../../../core/entities/location/duty.location';
+import { environment } from '../../../../environments/environment.prod';
 /**
  * Created by Jerry Kurian on 30-05-2017.
  */
@@ -22,10 +23,39 @@ export class NewStaffComponent implements OnInit {
   @Output() closed: EventEmitter<string> = new EventEmitter();
   errorMessage = '';
   error = false;
+  updatemode = false;
   createmode = true;
   loading = true;
   staff: Staff = new Staff();
+  firstNameErrorMsg: string;
+  lastNameErrorMsg: string;
+  emailIdErrorMsg: string;
+  mobileNumberErrorMsg: string;
+  isFirstNameValid: boolean = true;
+  isSecondNameValid: boolean = true;
+  isEmailIdValid: boolean = true;
+  isMobileNumberValid: boolean = true;
   designations: Designation[] = [];
+  firstNameplaceHolderLabel = environment.addStaff_placeHolder_firstName;
+  lastNameplaceHolderLabel = environment.addStaff_placeHolder_lastName;
+  emailIdplaceHolderLabel = environment.addStaff_placeHolder_emailId;
+  mobileNumberplaceHolderLabel = environment.addStaff_placeHolder_mobileNumber;
+  addressplaceHolderLabel = environment.addStaff_placeHolder_address;
+  cityplaceHolderLabel = environment.addStaff_placeHolder_city;
+  stateplaceHolderLabel = environment.addStaff_placeHolder_state;
+  firstNameLabel = environment.addStaff_firstName;
+  lastNameLabel = environment.addStaff_lastName;
+  emailIdLabel = environment.addStaff_emailId;
+  mobileNumberLabel = environment.addStaff_mobileNumber;
+  addressLabel = environment.addStaff_address;
+  cityLabel = environment.addStaff_city;
+  stateLabel = environment.addStaff_state;
+  addStaffLabel = environment.addStaff_groupName;
+  addButtonLabel = environment.addStaff_addbutton;
+  updateButtonLabel = environment.addStaff_updatebutton;
+  addRecordButtonLabel = environment.addStaff_addRecordbutton;
+  updateRecordButtonLabel = environment.addStaff_updateRecordbutton;
+  pageMessageLabel = environment.addStaff_pageMessage;
   constructor(private staffService: StaffServices,
     private stationServices: StationServices,
     private designationServices: DesignationServices,
@@ -38,6 +68,55 @@ export class NewStaffComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  validateFirstName(firstName) {
+    let firstNameRegex = /^[a-zA-Z ]*$/;
+    let validFirstName = firstName.match(firstNameRegex);
+    if (validFirstName == null) {
+      this.isFirstNameValid = false;
+      this.firstNameErrorMsg = 'Only alphabets with upper and lower case allowed.';
+    } else {
+      this.isFirstNameValid = true;
+      this.firstNameErrorMsg = '';
+    }
+  }
+
+   validateLastName(lastName) {
+     let lastNameRegex = /^[a-zA-Z ]*$/;
+     let validLastName = lastName.match(lastNameRegex);
+     if (validLastName == null) {
+       this.isSecondNameValid = false;
+       this.lastNameErrorMsg = 'Only alphabets with upper and lower case allowed.';
+     } else {
+       this.isSecondNameValid = true;
+       this.lastNameErrorMsg = '';
+     }
+   }
+
+   validateEmailId(email) {
+     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+     let validateEmailId = email.match(emailRegex);
+     if (validateEmailId == null) {
+      this.isEmailIdValid = false;
+      this.emailIdErrorMsg = 'Invalid E-mail ID.';
+     } else {
+      this.isEmailIdValid = true;
+      this.emailIdErrorMsg = '';
+     }
+   }
+
+   validateMobileNumber(mobileNumber) {
+    let mobileNumberRegex = /^[0-9]*$/;
+    let validMobileNumber = mobileNumber.match(mobileNumberRegex);
+    if (validMobileNumber == null) {
+      this.isMobileNumberValid = false;
+      this.mobileNumberErrorMsg = 'Only numerals allowed.';
+    } else {
+      this.isMobileNumberValid = true;
+      this.mobileNumberErrorMsg = '';
+    }
+  }
+
   submit() {
     console.log(this.staff);
     if (/\d/.test(this.staff.firstName) || /\d/.test(this.staff.lastName)) {

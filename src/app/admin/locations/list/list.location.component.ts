@@ -1,9 +1,8 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-
 import { DutyLocation } from '../../../core/entities/location/duty.location';
 import { DutyLocationServices } from '../../../core/services/duty.location.services';
-
+import { environment } from '../../../../environments/environment.prod';
 /**
  * Created by Jerry Kurian on 30-05-2017.
  */
@@ -29,7 +28,24 @@ export class ListLocationComponent implements OnInit {
   searchText = '';
   @ViewChild('newLocation')
   newLocationForm: ModalComponent;
-
+  searchPlaceholderLabel = environment.location_listPage_search;
+  locationLabel = environment.location_listPage_location;
+  addressLabel = environment.location_listPage_address;
+  cityLabel = environment.location_listPage_city;
+  addLocationNameLabel = environment.addLocation_placeholder_locationName;
+  addLocationAddressLabel = environment.addLocation_placeholder_locationAddress;
+  addLocationMobileNuberLabel = environment.addLocation_placeholder_mobileNumber;
+  addAddressLabel = environment.addLocation_placeholder_address;
+  addCityLabel = environment.addLocation_placeholder_city;
+  addStateLabel = environment.addLocation_placeholder_state;
+  refreshButtonLabel = environment.location_listPage_refreshbutton;
+  noLocRegMsg = environment.location_listPage_noLocationRegMsg;
+  updateButtonLabel = environment.location_listPage_updateButton;
+  addDutyLocationButtonLabel = environment.location_listPage_addDutyLocation_button;
+  addDutyLocationSuccessMsg = environment.location_listPage_addDutyLocation_successMsg;
+  addDutyLocationErrorMsg = environment.location_listPage_addDutyLocation_errorMsg;
+  addDutyLocationUpdated = environment.location_listPage_addDutyLocation_LocationUpdated;
+  addDutyLocationUpdateFailed = environment.location_listPage_addDutyLocation_LocationUpdateFailed;
   constructor(private locationService: DutyLocationServices) {
   }
 

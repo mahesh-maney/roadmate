@@ -12,6 +12,10 @@ export class Staff {
   mobileNumber: string;
   scanStatus: number;
   station: Station;
+  emailId: String;
+  address: String;
+  city: String;
+  state: String;
 }
 export class Designation {
   description: string;

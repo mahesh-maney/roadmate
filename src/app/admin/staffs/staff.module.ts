@@ -56,5 +56,8 @@ const routes: Routes = [
     NewStaffComponent
   ]
 })
+
 export class StaffModule {
 }
+
+

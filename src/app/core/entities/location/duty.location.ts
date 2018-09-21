@@ -7,4 +7,5 @@ export class DutyLocation {
   name: string;
   pincode: string;
   state: string;
+  mobileNumber: string;
 }

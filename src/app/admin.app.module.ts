@@ -1,4 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
+import {FormsModule} from '@angular/forms'
 import { NgModule } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -18,6 +19,7 @@ import {UserRouteAccessService} from './shared/auth/user-route-access-service';
 import {AccountService} from './shared/auth/account.service';
 import {SessionStorageService} from 'ng2-webstorage';
 import {LoginModalService} from './shared/login/login-modal.service';
+import { MyConfigurationComponent } from './my-configuration/my-configuration.component';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: Http) {
@@ -26,12 +28,14 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MyConfigurationComponent
   ],
   imports: [
     HttpModule,
     BrowserAnimationsModule, // required for ng2-tag-input
     CoreModule,
+    FormsModule,
     LayoutModule,
     SharedModule.forRoot(),
     RouterModule.forRoot(approutes),

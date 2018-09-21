@@ -5,15 +5,16 @@ const staffs = {
   role: ['ROLE_ADMIN', 'ROLE_USER']
 };
 
-const stations = {
+/*const stations = {
   text: 'Police Stations',
   link: '/stations',
   icon: 'icon-people',
   role: 'ROLE_ADMIN'
-};
+};*/
 
 const locations = {
-  text: 'Duty Locations',
+  //text: 'Duty Locations',
+  text: 'Locations',
   link: '/duty-locations',
   icon: 'icon-doc',
   role: 'ROLE_ADMIN'
@@ -42,7 +43,7 @@ const configurations = {
 
 export const menu = [
   staffs,
-  stations,
+  //stations,
   locations,
   devices,
   reports,

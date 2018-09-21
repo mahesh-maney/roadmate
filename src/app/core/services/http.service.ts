@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Rx';
 
 export class HttpService {
   baseUrl = 'http://isense.learnym.com';
+  //baseUrl = 'http://assembly.learnym.com';
   constructor(http: Http) {
   }
   retResponse(res: Response) {

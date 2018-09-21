@@ -9,37 +9,15 @@
     <strong>Error !!</strong>. Sorry, unable to complete the operation. Please try again.
   </div>
   <div class="panel-heading clearfix">
-    <h2>List of Staffs</h2>
     <div class="row">
       <div class="col-md-4" style="margin-bottom: 15px;">
-        <label class="control-label">Name or Mobile Number</label>
         <div class="input-group">
-          <input class="form-control input-sm" [(ngModel)]="searchText" type="text" />
+          <input class="form-control input-sm" placeholder="{{searchLabel}}" [(ngModel)]="searchText" type="text" />
           <span class="input-group-btn">
             <button class="btn btn-default btn-sm" (click)="search()" type="submit">
               <i class="fa fa-search"></i>
             </button>
           </span>
-        </div>
-      </div>
-      <div class="col-md-4" style="margin-bottom: 15px;">
-        <label class="control-label">Station</label>
-        <div class="input-group">
-          <div ngui-auto-complete id="policeStations" (valueChanged)="stationValueChanged($event)" [source]="loadStations.bind(this)"
-            [list-formatter]="stationListFormatter" [value-formatter]="stationValueFormatter" value-property-name="id" display-property-name="name"
-            placeholder="Search Station" class="scrollable-menu">
-            <input [ngModel]="station" class="form-control scrollable-menu" name="stations" autocomplete="off" required>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4" style="margin-bottom: 15px; z-index: 0;">
-        <label class="control-label">Duty Location</label>
-        <div class="input-group">
-          <div ngui-auto-complete id="dutyLocations" (valueChanged)="dutyLocationValueChanged($event)" [source]="loadDutyLocations.bind(this)"
-            [list-formatter]="dutyLocationListFormatter" [value-formatter]="dutyLocationValueFormatter" value-property-name="id"
-            display-property-name="name" placeholder="Search Duty Location" class="scrollable-menu">
-            <input [ngModel]="dutyLocation" class="form-control scrollable-menu" name="locations" autocomplete="off">
-          </div>
         </div>
       </div>
     </div>
@@ -52,49 +30,29 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Buckle Id</th>
-            <th>Station</th>
-            <th>Duty Location</th>
-            <th>Scan Status</th>
+            <th>{{firstNameLabel}}</th>
+            <th>{{lastNameLabel}}</th>
+            <th>{{emailIdLabel}}</th>
+            <th>{{mobileNumberLabel}}</th>
             <th>
-              <button class="icon-refresh btn btn-info" (click)="load(1)">Refresh</button>
+              <button class="icon-refresh btn btn-info" (click)="load(1)">{{refreshButtonLabel}}</button>
             </th>
           </tr>
         </thead>
         <tbody *ngIf="empty">
-          <tr>
-            <td>
-              <p>There are no staffs registered yet.</p>
-            </td>
-          </tr>
+          <tr><td><p>{{noStaffMessage}}</p></td></tr>
         </tbody>
         <tbody *ngIf="!empty">
           <tr *ngFor="let staff of staffs | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalItems}">
-            <td>
-              <div class="text-left">{{staff.firstName}} {{staff.lastName}}</div>
-            </td>
-            <td>
-              <div class="text-left" *ngIf="staff.designation">{{staff.designation.description}}</div>
-            </td>
-            <td>
-              <div class="text-left">{{staff.buckleId}}</div>
-            </td>
+            <td><div class="text-left">{{staff.firstName}}</div></td>
+            <td><div class="text-left">{{staff.lastName}}</div></td>
+            <td><div class="text-left">{{staff.buckleId}}</div></td>
             <td>
               <div class="text-left" *ngIf="staff.station">{{staff.station.name}}, {{staff.station.city}}, {{staff.station.state}}</div>
             </td>
-            <td>
-              <div class="text-left" *ngIf="staff.dutyLocation">
-                {{staff.dutyLocation.name}}, {{staff.dutyLocation.city}}, {{staff.dutyLocation.state}}
-              </div>
-            </td>
-            <td>
-              <div class="text-left">{{ staff?.scanStatus }}</div>
-            </td>
-            <td class="text-center">
+            <td class="table-responsive">
               <div class="btn-group" uib-dropdown="dropdown">
-                <button class="pull-left btn btn-warning btn-xs" type="button" (click)="update(staff)">Update</button>
+                <button class="pull-left btn btn-warning btn-xs" type="button" (click)="update(staff)">{{updateButtonLabel}}</button>
               </div>
             </td>
           </tr>

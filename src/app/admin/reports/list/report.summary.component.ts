@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { ReportData } from '../../../core/entities/report/report.data.model';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { environment } from '../../../../environments/environment.prod';
 
 /**
  * Created by Jerry Kurian on 30-05-2017.
@@ -31,7 +32,16 @@ export class ReportSummaryComponent implements OnInit {
   chosenLocation: DutyLocation;
   reportData : ReportData;
   reports: Report[];
-
+  dropDownLabel = environment.reports_listPage_dropDownLabel;
+  startDateLabel = environment.reports_listPage_startDate;
+  endDateLabel = environment.reports_listPage_endDate;
+  locationNameLabel = environment.reports_listPage_locationName;
+  visitingLabel = environment.reports_listPage_visiting;
+  startTimeLabel = environment.reports_listPage_startTime;
+  endtimeLabel = environment.reports_listPage_endTime;
+  visitSummaryLabel = environment.reports_listPage_visitSummary;
+  noReportRegYetMsg = environment.reports_listPage_noReportRegYetMsg ;
+  reportByLabel = environment.reports_listPage_reportByLabel;
 
   constructor(private reportServices: ReportServices,
     private dutyLocationServices: DutyLocationServices,
@@ -40,7 +50,14 @@ export class ReportSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.load();
+     this.load();
+  }
+
+  search() {
+    console.log("search implementation here . . . ")
+    console.log(this.dropDownLabel);
+    console.log(this.startDateLabel);
+    console.log(this.endDateLabel);
   }
 
   load() {

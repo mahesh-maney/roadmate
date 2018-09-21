@@ -9,22 +9,38 @@
   <!-- START table-responsive-->
 
   <div class="panel-heading">
-    <h2>Attendance Report Summary</h2>
+    <!-- <h2>Attendance Report Summary</h2> -->
     <div class="row">
-      <div class="col-md-4" style="margin-bottom: 15px;">
-        <label class="control-label">Date & Time</label>
-        <div class="input-group">
-          <input readonly ngui-datetime-picker [(ngModel)]="date" date-format="DD-MM-YYYY hh:mm a" />
+        <div class="col-md-4" style="margin-bottom: 15px;">
+          <select class="form-control" id="alllocation" name="alllocation" required>
+            <option selected="selected">{{dropDownLabel}}</option>
+            <option *ngFor="" [ngValue]=""></option>
+          </select>
         </div>
-      </div>
-      <div class="col-md-4" style="margin-bottom: 15px;">
-        <br/>
-        <button class="btn btn-info" (click)="load()">Load</button>
-      </div>
     </div>
+    <div class="row">
+      <div class="col-md-8" style="margin-bottom: 15px;">
+          <div class="sd-container">
+                {{startDateLabel}} :
+                <input class="sd" type="date" name="selected_date"/>
+                <span class="open-button">
+                  <button type="button">📅</button>
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;{{endDateLabel}} :
+                <input class="sd" type="date" name="selected_date"/>
+                <span class="open-button1">
+                  <button type="button">📅</button>
+                </span>
+                &nbsp;
+                <button class="btn btn-default btn-sm" (click)="search()" type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+          </div>
+      </div>
   </div>
 
   <div class="panel-body"  *ngIf="!empty">
+    <div>{{reportByLabel}} All Locations </div>
     <div>
       <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
     </div>
@@ -32,16 +48,17 @@
       <table class="table table-bordered table-striped table-hover">
         <thead>
           <tr>
-            <th>Location Name</th>
-            <th>Staffs Assigned</th>
-            <th>Staffs Absent</th>
-            <th>Staffs Present</th>
+            <th>{{locationNameLabel}}</th>
+            <th>{{visitingLabel}}</th>
+            <th>{{startTimeLabel}}</th>
+            <th>{{endtimeLabel}}</th>
+            <th>{{visitSummaryLabel}}</th>
           </tr>
         </thead>
         <tbody *ngIf="empty">
           <tr>
             <td>
-              <p>There are no reports registered yet.</p>
+              <p>{{noReportRegYetMsg}}</p>
             </td>
           </tr>
         </tbody>
@@ -50,7 +67,7 @@
             <td *ngIf="report.locationName !== 'Unassigned'">
               <div class="text-left"><a (click)="loadLocation(report?.locationId,report?.locationName)" href="#">{{report?.locationName}}</a></div>
             </td>
-            <td *ngIf="report.locationName !== 'Unassigned'">                      
+            <td *ngIf="report.locationName !== 'Unassigned'">
               <div class="text-left">
                 <span *ngIf="report.active">
                 {{report?.staffAssignedCount}}
